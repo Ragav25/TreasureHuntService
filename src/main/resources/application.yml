@@ -1,11 +1,32 @@
 spring:
+  application:
+    name: treasurehuntservice
+  jpa:
+    data: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: _AUDIT
+            store_data_at_delete: true
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
     username: postgres
     password: postgres
-    platform: postgres
     hikari:
-      connectionTimeout: 20000
-      maximumPoolSize: 5
-    jpa:
-      database: POSTGRESQL
+      maximum-pool-size: 4
+    connection-test-query: SELECT 1
+management:
+  endpoints:
+    web:
+      base-path: /
