@@ -8,3 +8,11 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+  db-migrate:
+    image: kilna/liquibase-postgres
+    environment:
+      LIQUIBASE_DATABASE: postgres
+      LIQUIBASE_USERNAME: postgres
+      LIQUIBASE_PASSWORD: postgres
+    volumes:
+      - ./src/main/resources/database/changelog/:/workspace/

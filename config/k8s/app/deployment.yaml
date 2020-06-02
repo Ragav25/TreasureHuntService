@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: treasure-hunt-service
+  labels:
+    app: treasure-hunt-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: treasure-hunt-service
+  template:
+    metadata:
+      labels:
+        app: treasure-hunt-service
+    spec:
+      containers:
+        - name: treasure-hunt-service
+          image: ragav25/treasure-hunt-service:latest
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "200m"
+              memory: "768Mi"
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: treasure-hunt-service
+  labels:
+    app: treasure-hunt-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 32120
+  selector:
+    app: treasure-hunt-service
